@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="Phone_Book.API/Phone_Book.API/Phone_Book.API.csproj" />
+  <Project Path="Phone_Book.Cli/Phone_Book.Cli/Phone_Book.Cli.csproj" />
+</Solution>
