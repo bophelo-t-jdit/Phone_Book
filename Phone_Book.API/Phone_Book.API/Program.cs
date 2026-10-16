@@ -1,3 +1,4 @@
+using DotNetEnv;
 
 namespace Phone_Book.API
 {
@@ -5,6 +6,7 @@ namespace Phone_Book.API
     {
         public static void Main(string[] args)
         {
+            //Env.Load();
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
