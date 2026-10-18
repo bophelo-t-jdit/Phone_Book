@@ -1,6 +1,9 @@
 ﻿# Phone Book - Tutorial CRUD Application
 This is a hands-on backend project learning exercise focused on implementing CRUD (Create, Read, Update, Delete) operations, REST APIs, working with databases and understand how the frontend, backend and database communicate with each other
 
+## License
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
 ## Table of Contents
 
 - [Project Goals](#project-goals)
