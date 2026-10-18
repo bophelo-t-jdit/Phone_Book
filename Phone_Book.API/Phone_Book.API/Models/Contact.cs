@@ -5,6 +5,7 @@ namespace Phone_Book.API.Models
 {
     public class Contact
     {
+        [Key]
         public int ContactId { get; set; }
 
         [Required]
