@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Phone_Book.API.Models
 {
@@ -22,5 +23,10 @@ namespace Phone_Book.API.Models
 
         [EmailAddress]
         public string? EmailAddress { get; set; }
+
+        public int OwnerId { get; set; }
+
+        [ForeignKey(nameof(OwnerId))]
+        public User Owner { get; set; } = null;
     }
 }
