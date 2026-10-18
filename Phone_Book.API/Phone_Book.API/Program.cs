@@ -1,3 +1,5 @@
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,19 @@ namespace Phone_Book.API
             builder.Services.AddControllers();
             builder.Services.AddDbContext<PhoneBookDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            // Register the API versioning services
+            builder.Services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                // Report the supported API versions in the response headers
+                options.ReportApiVersions = true;
+            }).AddApiExplorer(options =>
+                {
+                    options.GroupNameFormat = "'v'VVV";
+                    options.SubstituteApiVersionInUrl = true;
+                });
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
