@@ -12,6 +12,8 @@ namespace Phone_Book.API.Models
 
         [Required]
         [MinLength(8, ErrorMessage = "Password must be at least 8 characters long."), MaxLength(100, ErrorMessage = "Password cannot exceed 100 characters.")]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?=.*\d).+$", 
+            ErrorMessage = "Your password must have at least one capital letter, one special letter and one number.")] // Uppercase, Special Characters, Numbers
         public string Password { get; set; }
     }
 }

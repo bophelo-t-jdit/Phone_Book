@@ -1,12 +1,11 @@
 @Phone_Book.API_HostAddress = http://localhost:5261
-@version = v1
 
 GET {{Phone_Book.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
 # @name Register User
-POST {{Phone_Book.API_HostAddress}}/api/{{version}}/user/register
+POST {{Phone_Book.API_HostAddress}}/api/v1/user/register
 Content-Type: application/json
 {
     "Username": "John Doe",
