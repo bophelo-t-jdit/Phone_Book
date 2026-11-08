@@ -82,10 +82,58 @@ namespace Phone_Book.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login([FromBody] Login login)
         {
             try
             {
+                var usernameOrEmail = login.UsernameOrEmail;
+                var password = login.Password;
+
+                // Check Email
+                if (usernameOrEmail.Contains('@'))
+                { 
+                }
+                else
+                {
+                    // Get and check username
+                    var fetchUsername = await _context.Users
+                        .Where(u => u.Username == usernameOrEmail.ToLower())
+                        .Select(u => u.Username)
+                        .FirstOrDefaultAsync();
+
+                    // Fetch hashed password
+                    var fetchHashedPassword = await _context.Users
+                        .Where(u => u.Username == usernameOrEmail.ToLower())
+                        .Select(u => u.PasswordHash)
+                        .FirstOrDefaultAsync();
+
+                    var userExists = await _context.Users
+                        .FirstOrDefaultAsync(u =>
+                            EF.Functions.Like(u.Username.ToLower(), usernameOrEmail));
+
+                    var passwordExists = BCrypt.Net.BCrypt.Verify(password, fetchHashedPassword);
+
+                    if (userExists == null)
+                    {
+                        return NotFound(new { Message = $"Username: {usernameOrEmail} does not exists or is not found" });
+                    }
+                    else if (!passwordExists)
+                    {
+                        return Unauthorized(new { Message = "Password is incorrect!" });
+                    }
+                    else
+                    {
+                        return Ok(new { Message = "Credentials exist!" });
+                    }
+
+                    ///
+                    /// <summary>
+                    ///     Find how to check if username exists compare
+                    /// </summary>
+                    ///
+
+                }
+
             }
             catch (Exception ex)
             {
