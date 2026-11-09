@@ -90,26 +90,40 @@ namespace Phone_Book.API.Controllers
                 var password = login.Password;
 
                 // Check Email
-                if (usernameOrEmail.Contains('@'))
-                { 
+                if (usernameOrEmail.Trim().Contains('@'))
+                {
+                    // Fetch hashed password
+                    var fetchHashedPassword = await _context.Users
+                        .Where(u => u.Email == usernameOrEmail.ToLower())
+                        .Select(u => u.PasswordHash)
+                        .FirstOrDefaultAsync();
+
+                    var emailExists = GetEmailForLogin(usernameOrEmail);
+
+                    var passwordExists = BCrypt.Net.BCrypt.Verify(password, fetchHashedPassword);
+
+                    if (emailExists == null)
+                    {
+                        return NotFound(new { Message = $"Email: {usernameOrEmail} does not exist or is not found" });
+                    }
+                    else if (!passwordExists)
+                    {
+                        return Unauthorized(new { Message = "Password is incorrect!" });
+                    }
+                    else
+                    {
+                        return Ok(new { Message = "Credentials exist!" });
+                    }
                 }
                 else
                 {
-                    // Get and check username
-                    var fetchUsername = await _context.Users
-                        .Where(u => u.Username == usernameOrEmail.ToLower())
-                        .Select(u => u.Username)
-                        .FirstOrDefaultAsync();
-
                     // Fetch hashed password
                     var fetchHashedPassword = await _context.Users
                         .Where(u => u.Username == usernameOrEmail.ToLower())
                         .Select(u => u.PasswordHash)
                         .FirstOrDefaultAsync();
 
-                    var userExists = await _context.Users
-                        .FirstOrDefaultAsync(u =>
-                            EF.Functions.Like(u.Username.ToLower(), usernameOrEmail));
+                    var userExists = GetUserForLogin(usernameOrEmail);
 
                     var passwordExists = BCrypt.Net.BCrypt.Verify(password, fetchHashedPassword);
 
@@ -126,12 +140,6 @@ namespace Phone_Book.API.Controllers
                         return Ok(new { Message = "Credentials exist!" });
                     }
 
-                    ///
-                    /// <summary>
-                    ///     Find how to check if username exists compare
-                    /// </summary>
-                    ///
-
                 }
 
             }
@@ -140,6 +148,24 @@ namespace Phone_Book.API.Controllers
                 return StatusCode(500, new { Message = "Something went wrong with the server." });
             }
             return Ok(new { Message = "200 Ok" });
+        }
+
+        private async Task<User> GetUserForLogin(string username)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u =>
+                    u.Username == username.ToLower());
+
+            return user;
+        }
+
+        private async Task<User> GetEmailForLogin(string email)
+        {
+            var userEmail = await _context.Users
+                .FirstOrDefaultAsync(u =>
+                    u.Email == email.ToLower());
+            
+            return userEmail;
         }
     }
 }
