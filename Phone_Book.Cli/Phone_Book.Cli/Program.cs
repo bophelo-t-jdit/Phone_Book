@@ -1,5 +1,4 @@
-﻿using System.Net.Http; // Send Request and Receive Response
-using System.Text.Json; // Serialize and Deserialize JSON
+﻿using Phone_Book.Cli.App; // App Class
 
 
 namespace Phone_Book.Cli
@@ -8,7 +7,15 @@ namespace Phone_Book.Cli
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            App.App app = new App.App();
+
+            int count = 6;
+
+            while (count > 0)
+            {
+                app.Start();
+                count--;
+            }
         }
     }
 }

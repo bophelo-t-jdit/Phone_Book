@@ -137,7 +137,7 @@ namespace Phone_Book.API.Controllers
                     }
                     else
                     {
-                        return Ok(new { Message = "Credentials exist!" });
+                        return Ok(new { Message = $"Credentials exist!\n Welcome {usernameOrEmail}!" });
                     }
 
                 }
@@ -147,7 +147,6 @@ namespace Phone_Book.API.Controllers
             {
                 return StatusCode(500, new { Message = "Something went wrong with the server." });
             }
-            return Ok(new { Message = "200 Ok" });
         }
 
         private async Task<User> GetUserForLogin(string username)
