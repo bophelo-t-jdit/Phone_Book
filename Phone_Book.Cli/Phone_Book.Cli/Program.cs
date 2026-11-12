@@ -5,16 +5,13 @@ namespace Phone_Book.Cli
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             App.App app = new App.App();
 
-            int count = 6;
-
-            while (count > 0)
+            while (true)
             {
-                app.Start();
-                count--;
+                await app.Start();
             }
         }
     }

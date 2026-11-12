@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Phone_Book.Cli.App
+namespace Phone_Book.Cli.App.Utils
 {
     internal class InputHelper
     {

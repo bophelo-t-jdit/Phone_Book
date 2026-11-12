@@ -4,6 +4,7 @@ using System.Text;
 using System.Net.Http.Json;
 using Phone_Book.Cli.App.Services;
 using System.Text.RegularExpressions;
+using Phone_Book.Cli.App.Utils;
 
 namespace Phone_Book.Cli.App
 {
@@ -54,7 +55,10 @@ namespace Phone_Book.Cli.App
                         {
                             Console.WriteLine("\nYou are already logged in.");
                         }
-                        await RegisterUser(_client, input);
+                        break;
+                    case 0:
+                        Console.WriteLine("\nExiting the application. Goodbye!");
+                        Environment.Exit(0);
                         break;
 
                     default:
@@ -72,8 +76,6 @@ namespace Phone_Book.Cli.App
                 Console.WriteLine($"\nAn error occurred: {e.Message}");
                 return;
             }
-
-            await RegisterUser(_client, input);
 
         }
 
